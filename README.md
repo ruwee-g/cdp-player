@@ -54,37 +54,6 @@ pnpm tauri build    # native bundles: .dmg (macOS), NSIS (Windows), AppImage/deb
 
 `cargo check` / `cargo test` run inside `src-tauri/`.
 
-## Project structure
-
-```
-src/
-  App.tsx                 # wiring: audio element, dialogs, drag&drop, hotkeys
-  components/
-    CdpPlayer.tsx         # the player card (controls, volume, title, cover)
-    Disc.tsx              # branded spinning disc (inertia physics)
-    DotVisualizer.tsx     # cover-slot visualizers (4 modes)
-    IdleAnim.tsx          # idle animation rotation
-    icons.tsx             # hand-made dot-matrix SVG icons
-  lib/
-    audio.ts              # HTMLAudio + Web Audio singleton (HMR-safe)
-    spectrum.ts           # dB-scale spectrum + peak-hold mapping
-    dotAnims.ts           # dot animation engine + test presets
-    heartFinale.ts sleepy.ts cassette.ts rocket.ts tetris.ts
-    fireworks.ts umbrella.ts alarm.ts   # saved idle animations
-    archive/              # retired animations (kept for reference)
-  stores/player.ts        # zustand store (persisted)
-  dots-test.tsx           # design lab: #dots-test route with animations,
-                          # disc faces and repeat-loop icon candidates
-  disc-faces.tsx          # branded disc face designs
-src-tauri/
-  src/lib.rs              # scan_folder / import_paths / track_cover commands
-  capabilities/           # Tauri permission sets
-Design/                   # designer source files (Figma exports, font)
-```
-
-Open `http://localhost:1421/#dots-test` in a browser while devving to preview
-animations, disc faces and icon candidates on a separate page.
-
 ## Fonts
 
 Display type is [Bitcount](https://fonts.google.com/specimen/Bitcount),

@@ -18,6 +18,7 @@ import { drawTetris, TETRIS_PERIOD } from "@/lib/tetris";
 import { drawFireworks, FIREWORKS_PERIOD } from "@/lib/fireworks";
 import { drawUmbrella, UMBRELLA_PERIOD } from "@/lib/umbrella";
 import DiscFaces from "./disc-faces";
+import AppIcons from "./app-icons";
 import { DotRepeatR1, DotRepeatR2, DotRepeatR3, DotRepeatR4 } from "./components/icons";
 import { DotRepeatR5, DotRepeatR6, DotRepeatR7, DotRepeatR8 } from "./components/icons";
 
@@ -149,6 +150,7 @@ export default function DotsTest() {
         same dots: pitch 10 · radius 4.5 · #e8b800 on #2b2b2b
       </div>
       <DiscFaces />
+      <AppIcons />
       <div className="font-bauhaus mt-4 text-[22px] lowercase text-[#e8b800]">
         repeat loops
       </div>
