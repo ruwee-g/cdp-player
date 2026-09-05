@@ -1,0 +1,229 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Righteous";
+  src:
+    url("/fonts/Righteous-Regular.woff2") format("woff2"),
+    url("/fonts/Righteous-Regular.woff") format("woff");
+  font-weight: 400;
+  font-display: swap;
+}
+
+:root {
+  --cdp-yellow: #e8b800;
+  --cdp-ink: #2b2b2e;
+}
+
+html {
+  background: transparent;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: transparent;
+  font-family: "Righteous", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+  user-select: none;
+}
+
+/* ---- Selection lockdown: nothing in the window is selectable ----
+   (SVG <text> ignores inherited user-select in WebKit, hence explicit.) */
+*,
+*::before,
+*::after {
+  -webkit-user-select: none !important;
+  user-select: none !important;
+  -webkit-touch-callout: none !important;
+}
+svg text {
+  -webkit-user-select: none !important;
+  user-select: none !important;
+}
+img {
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
+::selection {
+  background: transparent;
+  color: inherit;
+}
+
+.font-bauhaus {
+  font-family: "Righteous", system-ui, sans-serif;
+}
+
+/* CD rainbow sheen */
+.cd-sheen {
+  background:
+    radial-gradient(circle at 50% 50%, transparent 18%, rgba(0,0,0,0.08) 19%, transparent 20%),
+    conic-gradient(from 0deg,
+      rgba(255,0,128,0.18), rgba(255,200,0,0.18), rgba(0,255,180,0.18),
+      rgba(0,150,255,0.18), rgba(180,0,255,0.18), rgba(255,0,128,0.18)),
+    linear-gradient(135deg, #d8d5cf, #f2f0eb 40%, #c9c6bf 70%, #e8e6e1);
+}
+
+.no-drag { -webkit-app-region: no-drag; }
+.drag { -webkit-app-region: drag; }
+
+/* ---- Molded retro-cream plastic shell (replaces flat white) ---- */
+.cdp-shell {
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.45  0 0 0 0 0.38  0 0 0 0 0.28  0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E"),
+    linear-gradient(180deg, #fdfaf3 0%, #fbf6ec 30%, #f3ecdd 70%, #e9dfcc 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    inset 0 0 0 1px rgba(120, 95, 60, 0.25),
+    inset 0 -24px 32px -20px rgba(120, 95, 60, 0.20);
+}
+
+/* ---- Title capsule glass: edge tint + caustic rim line ---- */
+.cdp-capsule-glass {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(0,0,0,0.28) 0%, transparent 14%, transparent 86%, rgba(0,0,0,0.28) 100%);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.45),
+    inset 6px 0 8px -4px rgba(255, 0, 80, 0.25),
+    inset -6px 0 8px -4px rgba(0, 210, 255, 0.25);
+}
+
+/* ---- Title capsule marquee: endless right-to-left scroll ---- */
+@keyframes cdp-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.cdp-marquee {
+  display: inline-flex;
+  white-space: nowrap;
+  animation: cdp-marquee 10s linear infinite;
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+.cdp-marquee > span {
+  flex-shrink: 0;
+  padding-right: 2.5rem;
+}
+
+/* ---- Layer 1: dark button substrate (from Sketch) ---- */
+.cdp-btn {
+  position: relative;
+  background: #373737;
+  border-radius: 20px;
+  box-shadow: inset 0 0 12px 4px rgba(0, 0, 0, 0.30);
+  transition: filter 0.15s ease;
+  overflow: hidden;
+}
+.cdp-btn:active { filter: brightness(0.88); }
+
+/* ---- Layer 3: glass cap (Sketch Glass recipe:
+   Blur 0 / Distortion 0 / Depth 53 / CA 54 / Saturation 2% / Brightness 0% / Specular OFF) ---- */
+.cdp-glass {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  -webkit-backdrop-filter: saturate(102%);
+  backdrop-filter: saturate(102%);
+  background:
+    /* depth 53: bottom shading only, no top light */
+    linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 55%, rgba(0,0,0,0) 70%, rgba(0,0,0,0.12) 100%);
+  box-shadow:
+    inset 0 -2px 3px rgba(0, 0, 0, 0.28),
+    /* chromatic aberration 54: RGB-split edges (sides only) */
+    inset 1px 0 0 rgba(255, 0, 80, 0.20),
+    inset -1px 0 0 rgba(0, 210, 255, 0.20),
+    /* temp neutral hairline — replaced by exact Border from Copy CSS */
+    inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+}
+
+/* ---- Pocket substrate: same retro-cream plastic as the shell ---- */
+.cdp-pocket {
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.45  0 0 0 0 0.38  0 0 0 0 0.28  0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E"),
+    linear-gradient(180deg, #fdfaf3 0%, #fbf6ec 40%, #f3ecdd 100%);
+  box-shadow:
+    inset 0 6px 14px rgba(0, 0, 0, 0.22),
+    inset 0 -2px 6px rgba(255, 255, 255, 0.7);
+}
+
+/* ---- Pocket glass (Sketch Inner Shadow spec: #000000 25%, X 0, Y 8, blur 17, spread 3) ---- */
+.cdp-pocket-glass {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  -webkit-backdrop-filter: saturate(102%);
+  backdrop-filter: saturate(102%);
+  background: transparent;
+  box-shadow:
+    inset 0 8px 17px 3px rgba(0, 0, 0, 0.25),
+    inset 1px 0 0 rgba(255, 0, 80, 0.14),
+    inset -1px 0 0 rgba(0, 210, 255, 0.14),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.20);
+}
+
+/* ---- Retro device details ---- */
+
+/* Speaker grille: perforation dissolving into the shell.
+   Padding + content-box clip + centered tiling keep every visible
+   dot whole; the mask fades the field before the border. */
+.cdp-grille {
+  padding: 6px 6px 6px 0;
+  background-image: radial-gradient(circle, rgba(120, 95, 60, 0.38) 1.6px, transparent 1.8px);
+  background-size: 8px 8px;
+  background-position: center;
+  background-clip: content-box;
+  -webkit-mask-image: radial-gradient(115% 100% at 50% 50%, #000 40%, transparent 80%);
+  mask-image: radial-gradient(115% 100% at 50% 50%, #000 40%, transparent 80%);
+}
+
+/* Recessed control tray. */
+.cdp-tray {
+  background: rgba(120, 95, 60, 0.07);
+  border-radius: 20px;
+  box-shadow:
+    inset 0 2px 8px rgba(120, 95, 60, 0.28),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.65);
+}
+
+/* Molded seam: thin groove following the shell perimeter. */
+.cdp-seam {
+  position: absolute;
+  inset: 8px;
+  border-radius: 22px;
+  pointer-events: none;
+  box-shadow: inset 0 0 0 1px rgba(120, 95, 60, 0.20);
+}
+
+/* Embossed brand + microprint. */
+.cdp-emboss {
+  color: rgba(120, 95, 60, 0.8);
+  text-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.75),
+    0 -1px 1px rgba(120, 95, 60, 0.35);
+}
+.cdp-micro {
+  color: rgba(120, 95, 60, 0.55);
+}
+
+/* LED: lit when playing, dim ember on pause. */
+.cdp-led {
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  flex-shrink: 0;
+  background: rgba(120, 95, 60, 0.3);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+.cdp-led.on {
+  background: #e8b800;
+  box-shadow: 0 0 6px 2px rgba(232, 184, 0, 0.65);
+}
