@@ -1,10 +1,8 @@
 @import "tailwindcss";
 
 @font-face {
-  font-family: "Righteous";
-  src:
-    url("/fonts/Righteous-Regular.woff2") format("woff2"),
-    url("/fonts/Righteous-Regular.woff") format("woff");
+  font-family: "Bitcount";
+  src: url("/fonts/Bitcount-Regular.ttf") format("truetype");
   font-weight: 400;
   font-display: swap;
 }
@@ -25,7 +23,7 @@ html, body, #root {
 body {
   margin: 0;
   background: transparent;
-  font-family: "Righteous", system-ui, sans-serif;
+  font-family: "Bitcount", system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   overflow: hidden;
   user-select: none;
@@ -54,7 +52,7 @@ img {
 }
 
 .font-bauhaus {
-  font-family: "Righteous", system-ui, sans-serif;
+  font-family: "Bitcount", system-ui, sans-serif;
 }
 
 /* CD rainbow sheen */

@@ -59,7 +59,7 @@ export default function Disc({ playing }: { playing: boolean }) {
               <circle cx="100" cy="100" r="98" fill="#f1ead9" />
               <circle cx="100" cy="100" r="86" fill="none" stroke="#e8b800" strokeWidth="7" />
               <text
-                fontFamily="Righteous, sans-serif"
+                fontFamily="Bitcount, sans-serif"
                 fontSize="13"
                 letterSpacing="3"
                 fill="#2f2f33"
@@ -73,7 +73,7 @@ export default function Disc({ playing }: { playing: boolean }) {
                 x="100"
                 y="107"
                 textAnchor="middle"
-                fontFamily="Righteous, sans-serif"
+                fontFamily="Bitcount, sans-serif"
                 fontSize="20"
                 fill="#2f2f33"
               >

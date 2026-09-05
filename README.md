@@ -87,9 +87,9 @@ animations, disc faces and icon candidates on a separate page.
 
 ## Fonts
 
-Display type is [Righteous](https://fonts.google.com/specimen/Righteous) by
-Brian J. Bonislawsky (Astigmatic), licensed under the
-[SIL Open Font License 1.1](https://scripts.sil.org/OFL) — see
+Display type is [Bitcount](https://fonts.google.com/specimen/Bitcount),
+licensed under the
+[SIL Open Font License 1.1](https://openfontlicense.org) — see
 `public/fonts/OFL.txt` (also copied under `Design/`).
 
 ## License

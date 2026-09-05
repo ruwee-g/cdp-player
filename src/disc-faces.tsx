@@ -22,14 +22,14 @@ function FaceA() {
       </defs>
       <circle cx="100" cy="100" r="96" fill="#f1ead9" />
       <circle cx="100" cy="100" r="86" fill="none" stroke="#e8b800" strokeWidth="7" />
-      <text fontFamily="Righteous, sans-serif" fontSize="13" letterSpacing="3" fill="#2f2f33">
+      <text fontFamily="Bitcount, sans-serif" fontSize="13" letterSpacing="3" fill="#2f2f33">
         <textPath href="#discA-arc">CDP • STEREO MUSIC PLAYER • RETRO SOUND •</textPath>
       </text>
-      <text fontFamily="Righteous, sans-serif" fontSize="10" letterSpacing="2" fill="#2f2f33" textAnchor="middle">
+      <text fontFamily="Bitcount, sans-serif" fontSize="10" letterSpacing="2" fill="#2f2f33" textAnchor="middle">
         <textPath href="#discA-arc-b" startOffset="50%">designed by ruwee</textPath>
       </text>
       <circle cx="100" cy="100" r="30" fill="#e8b800" />
-      <text x="100" y="107" textAnchor="middle" fontFamily="Righteous, sans-serif" fontSize="20" fill="#2f2f33">
+      <text x="100" y="107" textAnchor="middle" fontFamily="Bitcount, sans-serif" fontSize="20" fill="#2f2f33">
         CDP
       </text>
       <Hole />
@@ -49,10 +49,10 @@ function FaceB() {
         <rect x="0" y="0" width="200" height="200" fill="#f3ecdd" />
         <rect x="0" y="0" width="200" height="96" fill="#e8b800" />
         <rect x="0" y="88" width="200" height="24" fill="#2f2f33" />
-        <text x="100" y="106" textAnchor="middle" fontFamily="Righteous, sans-serif" fontSize="17" letterSpacing="4" fill="#e8b800">
+        <text x="100" y="106" textAnchor="middle" fontFamily="Bitcount, sans-serif" fontSize="17" letterSpacing="4" fill="#e8b800">
           CDP • CDP • CDP
         </text>
-        <text x="100" y="152" textAnchor="middle" fontFamily="Righteous, sans-serif" fontSize="15" letterSpacing="6" fill="#2f2f33">
+        <text x="100" y="152" textAnchor="middle" fontFamily="Bitcount, sans-serif" fontSize="15" letterSpacing="6" fill="#2f2f33">
           STEREO
         </text>
       </g>
@@ -87,7 +87,7 @@ function FaceC() {
       <path d="M 20,60 A 90,90 0 0,1 90,14" fill="none" stroke="rgba(255,0,128,0.22)" strokeWidth="10" />
       <path d="M 110,186 A 90,90 0 0,1 180,140" fill="none" stroke="rgba(0,255,180,0.22)" strokeWidth="10" />
       <circle cx="100" cy="100" r="30" fill="#2f2f33" />
-      <text x="100" y="107" textAnchor="middle" fontFamily="Righteous, sans-serif" fontSize="19" fill="#e8b800">
+      <text x="100" y="107" textAnchor="middle" fontFamily="Bitcount, sans-serif" fontSize="19" fill="#e8b800">
         CDP
       </text>
       <Hole ring="#e8b800" />
@@ -118,7 +118,7 @@ function FaceD() {
       </g>
       <circle cx="100" cy="100" r="96" fill="none" stroke="#2f2f33" strokeWidth="4" />
       <circle cx="100" cy="100" r="32" fill="#2f2f33" />
-      <text x="100" y="108" textAnchor="middle" fontFamily="Righteous, sans-serif" fontSize="21" fill="#e8b800">
+      <text x="100" y="108" textAnchor="middle" fontFamily="Bitcount, sans-serif" fontSize="21" fill="#e8b800">
         CDP
       </text>
       <Hole />
