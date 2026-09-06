@@ -253,8 +253,8 @@ export default function CdpPlayer({
             </div>
             <div className="cdp-grille min-h-[51px] w-full flex-1 rounded-xl" />
             <div>
-              <div className="cdp-emboss font-bauhaus text-[16px] lowercase leading-none">cdp</div>
-              <div className="cdp-micro font-bauhaus mt-1 text-[9px] lowercase tracking-wider">
+              <div className="cdp-emboss font-[Roboto] text-[16px] font-extrabold lowercase leading-none">cdp</div>
+              <div className="cdp-micro font-[Roboto] mt-1 text-[9px] font-medium lowercase tracking-wider">
                 stereo music player · designed by ruwee
               </div>
             </div>

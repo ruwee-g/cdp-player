@@ -7,6 +7,20 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: "Roboto";
+  src: url("/fonts/Roboto-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: url("/fonts/Roboto-ExtraBold.woff2") format("woff2");
+  font-weight: 800;
+  font-display: swap;
+}
+
 :root {
   --cdp-yellow: #e8b800;
   --cdp-ink: #2b2b2e;

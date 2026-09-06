@@ -56,10 +56,12 @@ pnpm tauri build    # native bundles: .dmg (macOS), NSIS (Windows), AppImage/deb
 
 ## Fonts
 
-Display type is [Bitcount](https://fonts.google.com/specimen/Bitcount),
-licensed under the
+Display type is [Bitcount](https://fonts.google.com/specimen/Bitcount);
+brand microcopy is set in [Roboto](https://fonts.google.com/specimen/Roboto)
+(Medium + ExtraBold). Both are licensed under the
 [SIL Open Font License 1.1](https://openfontlicense.org) — see
-`public/fonts/OFL.txt` (also copied under `Design/`).
+`public/fonts/OFL.txt` and `public/fonts/Roboto-LICENSE`
+(also copied under `Design/`).
 
 ## License
 
