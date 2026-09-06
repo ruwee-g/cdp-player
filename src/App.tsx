@@ -2,6 +2,7 @@ import { useCallback, useEffect } from "react";
 import { invoke, convertFileSrc } from "@tauri-apps/api/core";
 import { open } from "@tauri-apps/plugin-dialog";
 import { getCurrentWebview } from "@tauri-apps/api/webview";
+import { listen } from "@tauri-apps/api/event";
 import CdpPlayer from "./components/CdpPlayer";
 import { usePlayer, currentTrack, type Track } from "./stores/player";
 import { getAudio, getAnalyser, resumeAudio, ensureGestureResume } from "./lib/audio";
@@ -12,7 +13,7 @@ export default function App() {
   const muted = usePlayer((s) => s.muted);
   const track = usePlayer(currentTrack);
 
-  const { setTracks, playAt, toggle, next, prev, setPlaying, setCover, setProgress, setVolume, cycleRepeat } =
+  const { toggle, next, prev, setPlaying, setCover, setProgress, setVolume, cycleRepeat } =
     usePlayer.getState();
 
   // volume init + sync mute
@@ -113,6 +114,20 @@ export default function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [track?.path]);
 
+  // Shared importer: scan files/folders, replace library, autoplay.
+  // Used by the picker, drag & drop and OS open-with flows.
+  const playPaths = useCallback(async (paths: string[]) => {
+    if (!paths.length) return;
+    try {
+      const list = await invoke<Track[]>("import_paths", { paths });
+      const st = usePlayer.getState();
+      st.setTracks(list);
+      if (list.length) st.playAt(0);
+    } catch (e) {
+      console.error(e);
+    }
+  }, []);
+
   // File picker: multi-select audio files (mp4/m4v included via filters).
   // Folders come in via drag & drop onto the window (import_paths handles both).
   const onAddMusic = useCallback(async () => {
@@ -132,15 +147,8 @@ export default function App() {
     });
     if (!sel) return;
     const paths = Array.isArray(sel) ? sel : [sel];
-    if (!paths.length) return;
-    try {
-      const list = await invoke<Track[]>("import_paths", { paths });
-      setTracks(list);
-      if (list.length) playAt(0);
-    } catch (e) {
-      console.error(e);
-    }
-  }, [playAt, setTracks]);
+    await playPaths(paths);
+  }, [playPaths]);
 
   // Drag & drop files/folders anywhere onto the window.
   useEffect(() => {
@@ -149,13 +157,7 @@ export default function App() {
       .onDragDropEvent((event) => {
         const p = event.payload as { type: string; paths?: string[] };
         if (p.type === "drop" && p.paths?.length) {
-          invoke<Track[]>("import_paths", { paths: p.paths })
-            .then((list) => {
-              const st = usePlayer.getState();
-              st.setTracks(list);
-              if (list.length) st.playAt(0);
-            })
-            .catch((e) => console.error(e));
+          void playPaths(p.paths);
         }
       })
       .then((off) => {
@@ -163,6 +165,26 @@ export default function App() {
       })
       .catch((e) => console.error(e));
     return () => unlisten?.();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Files the app was opened with (double-click / Open With / second launch):
+  // drain the Rust-side pending queue once, then subscribe for runtime drops.
+  useEffect(() => {
+    let off: (() => void) | undefined;
+    invoke<string[]>("take_pending_files")
+      .then((paths) => {
+        if (paths.length) void playPaths(paths);
+      })
+      .catch((e) => console.error(e));
+    listen<string[]>("open-files", (event) => {
+      if (event.payload.length) void playPaths(event.payload);
+    })
+      .then((un) => {
+        off = un;
+      })
+      .catch((e) => console.error(e));
+    return () => off?.();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

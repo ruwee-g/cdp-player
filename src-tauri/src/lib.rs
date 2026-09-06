@@ -2,6 +2,8 @@ use lofty::prelude::*;
 use lofty::probe::Probe;
 use serde::Serialize;
 use std::path::Path;
+use std::sync::Mutex;
+use tauri::{Emitter, Manager, RunEvent};
 use walkdir::WalkDir;
 
 const AUDIO_EXTS: &[&str] = &[
@@ -142,8 +144,69 @@ pub fn run() {
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_fs::init())
         .plugin(tauri_plugin_dialog::init())
-        .invoke_handler(tauri::generate_handler![import_paths, track_cover])
-        .run(tauri::generate_context!())
-        .expect("error while running tauri application");
+        .plugin(tauri_plugin_single_instance::init(|app, args, _cwd| {
+            // Second launch (double-clicked file): forward into the live window.
+            push_pending_files(app, args_to_files(args));
+            if let Some(w) = app.get_webview_window("main") {
+                let _ = w.set_focus();
+            }
+        }))
+        .manage(PendingFiles::default())
+        .invoke_handler(tauri::generate_handler![
+            import_paths,
+            track_cover,
+            take_pending_files
+        ])
+        .setup(|app| {
+            // First launch may already carry file paths (Open With / CLI).
+            push_pending_files(&app.handle(), args_to_files(std::env::args().collect()));
+            Ok(())
+        })
+        .build(tauri::generate_context!())
+        .expect("error while running tauri application")
+        .run(|app, event| {
+            // macOS Finder "Open With" on the running app.
+            if let RunEvent::Opened { urls } = event {
+                let paths: Vec<String> = urls
+                    .into_iter()
+                    .filter_map(|u| u.to_file_path().ok())
+                    .map(|p| p.to_string_lossy().into_owned())
+                    .collect();
+                push_pending_files(app, paths);
+            }
+        });
+}
+
+// ---- Open-with / single-instance plumbing -------------------------------
+// Files that arrive while the frontend may not be listening yet accumulate
+// here; the frontend drains them once via take_pending_files (pull, no race)
+// and subscribes to "open-files" for everything after that.
+
+#[derive(Default)]
+struct PendingFiles(Mutex<Vec<String>>);
+
+/// Keep CLI flags and non-files out (tauri dev injects its own args).
+fn args_to_files(args: Vec<String>) -> Vec<String> {
+    args.into_iter()
+        .skip(1)
+        .filter(|a| !a.starts_with('-') && Path::new(a).is_file())
+        .collect()
+}
+
+fn push_pending_files(app: &tauri::AppHandle, paths: Vec<String>) {
+    if paths.is_empty() {
+        return;
+    }
+    if let Some(state) = app.try_state::<PendingFiles>() {
+        state.0.lock().unwrap().extend(paths.clone());
+    }
+    let _ = app.emit("open-files", paths);
+}
+
+/// Drain files collected before the frontend started listening.
+#[tauri::command]
+fn take_pending_files(state: tauri::State<PendingFiles>) -> Result<Vec<String>, String> {
+    let mut lock = state.0.lock().map_err(|e| e.to_string())?;
+    Ok(std::mem::take(&mut *lock))
 }
 

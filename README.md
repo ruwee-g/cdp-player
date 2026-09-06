@@ -19,6 +19,8 @@ spinning disc and canvas visualizers. No window chrome — just the player.
   `↑/↓` volume, `M` mute
 - Library, volume and repeat mode persist across restarts (localStorage)
 - File picker (multi-select) + drag & drop of files and folders
+- OS integration: double-click / Open With plays in the running window
+  (single instance)
 - Tag + cover-art reading via Rust (`lofty`)
 
 ## Tech stack

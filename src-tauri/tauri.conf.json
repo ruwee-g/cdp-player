@@ -35,6 +35,9 @@
   "bundle": {
     "active": true,
     "targets": "all",
+    "category": "Music",
+    "shortDescription": "Minimal retro music player",
+    "longDescription": "CDP is a minimal frameless music player with a retro plastic device look, dot-matrix UI and canvas visualizers.",
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",
