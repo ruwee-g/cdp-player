@@ -32,7 +32,7 @@ function Note({ color, x = 41, y = 31 }: { color: string; x?: number; y?: number
         [5, 6], [6, 6],
         [5, 7], [6, 7],
         [5, 8], [6, 8],
-        [1, 9], [2, 9], [3, 9], [4, 9], [5, 9], [6, 9], [7, 9],
+        [1, 9], [2, 9], [3, 9], [4, 9], [5, 9],
         [0, 10], [1, 10], [2, 10], [3, 10], [4, 10], [5, 10],
         [0, 11], [1, 11], [2, 11], [3, 11], [4, 11], [5, 11],
         [1, 12], [2, 12], [3, 12], [4, 12],
@@ -84,6 +84,102 @@ const ICONS: { name: string; desc: string; el: React.ReactNode }[] = [
   { name: "D — disc", desc: "мини-диск с нотой", el: <IconD /> },
 ];
 
+// Beamed pair note (two stems/heads below, beam on top), 13×13 cells.
+const BEAMED: [number, number][] = (() => {
+  const rows = [
+    "...########..",
+    "..########...",
+    "..##...##....",
+    "..##...##....",
+    "..##...##....",
+    "..##...##....",
+    "..##...##....",
+    "..##...##....",
+    "..##..####...",
+    ".#####.#####.",
+    ".#####.#####.",
+    ".#####.#####.",
+    ".###.........",
+  ];
+  const out: [number, number][] = [];
+  rows.forEach((row, cy) => {
+    [...row].forEach((ch, cx) => {
+      if (ch === "#") out.push([cx, cy]);
+    });
+  });
+  return out;
+})();
+
+function BeamedNote({
+  color,
+  headColor,
+  x = 34,
+  y = 34,
+}: {
+  color: string;
+  headColor?: string;
+  x?: number;
+  y?: number;
+}) {
+  const s = 4.6; // 13 cells → ~60px
+  return (
+    <g transform={`translate(${x},${y}) scale(${s})`}>
+      {BEAMED.map(([cx, cy], i) => {
+        const isHead = cy >= 9;
+        return (
+          <circle
+            key={i}
+            cx={cx + 0.5}
+            cy={cy + 0.5}
+            r="0.45"
+            fill={isHead && headColor ? headColor : color}
+          />
+        );
+      })}
+    </g>
+  );
+}
+
+function IconE() {
+  return (
+    <Shell bg="#2f2f33">
+      <BeamedNote color="#e8b800" />
+    </Shell>
+  );
+}
+
+function IconF() {
+  return (
+    <Shell bg="#f3ecdd">
+      <BeamedNote color="#2f2f33" />
+    </Shell>
+  );
+}
+
+function IconG() {
+  return (
+    <Shell bg="#1a1a1c">
+      <BeamedNote color="#f3ecdd" headColor="#e8b800" />
+    </Shell>
+  );
+}
+
+function IconH() {
+  return (
+    <Shell bg="#e8b800">
+      <circle cx="64" cy="64" r="46" fill="none" stroke="#2f2f33" strokeWidth="4" />
+      <BeamedNote color="#2f2f33" />
+    </Shell>
+  );
+}
+
+const ICONS2: { name: string; desc: string; el: React.ReactNode }[] = [
+  { name: "E — dark + beamed", desc: "парная нота желтая", el: <IconE /> },
+  { name: "F — cream + beamed", desc: "парная нота темная", el: <IconF /> },
+  { name: "G — two-tone", desc: "балка крем, головки желтые", el: <IconG /> },
+  { name: "H — yellow ring", desc: "кольцо + темная нота", el: <IconH /> },
+];
+
 export { DotNote };
 
 export default function AppIcons() {
@@ -92,6 +188,16 @@ export default function AppIcons() {
       <div className="font-bauhaus mt-4 text-[22px] lowercase text-[#e8b800]">app icons</div>
       <div className="grid grid-cols-2 gap-8">
         {ICONS.map((f) => (
+          <div key={f.name} className="flex flex-col items-center gap-2">
+            <div className="rounded-2xl bg-[#141416] p-3">{f.el}</div>
+            <div className="font-bauhaus text-[15px] lowercase text-[#e8b800]">{f.name}</div>
+            <div className="font-bauhaus text-[11px] lowercase text-white/40">{f.desc}</div>
+          </div>
+        ))}
+      </div>
+      <div className="font-bauhaus mt-4 text-[22px] lowercase text-[#e8b800]">app icons — beamed note</div>
+      <div className="grid grid-cols-2 gap-8">
+        {ICONS2.map((f) => (
           <div key={f.name} className="flex flex-col items-center gap-2">
             <div className="rounded-2xl bg-[#141416] p-3">{f.el}</div>
             <div className="font-bauhaus text-[15px] lowercase text-[#e8b800]">{f.name}</div>
